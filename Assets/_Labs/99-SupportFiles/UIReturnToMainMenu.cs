@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class UIReturnToMainMenu : MonoBehaviour
 {
-    //todo: dtermine if I want to set up different return points from this prefab
-    private GameObject returnMenu;
-    //public GameObject fpsController;
+    [SerializeField] private GameObject returnMenu; // Assign this in the Inspector
 
-
-    public void Awake()
+    private void Awake()
     {
-       
-        //returnMenu.SetActive(false);
+        // Optional: hide the return menu at start
+        if (returnMenu != null)
+        {
+            returnMenu.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("returnMenu is not assigned in the Inspector.");
+        }
     }
 
     public void ReturnToMainMenu()
@@ -20,18 +23,23 @@ public class UIReturnToMainMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-
-    // Update is called once per frame
-    public void Update()
+    private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.Mouse0)))
+        // Left-click hides the return menu
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            GameObject.Find("ReturnToMenu-Equals").SetActive(false);
-            
-
+            if (returnMenu != null)
+            {
+                returnMenu.SetActive(false);
+            }
+            else
+            {
+                Debug.LogWarning("returnMenu is not assigned or was destroyed.");
+            }
         }
 
-        if ((Input.GetKeyDown(KeyCode.Equals)))
+        // Equals key loads the main menu
+        if (Input.GetKeyDown(KeyCode.Equals))
         {
             ReturnToMainMenu();
         }
